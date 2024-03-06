@@ -1,0 +1,27 @@
+<!-- product-form.component.html -->
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="productType">Product Type:</label>
+      <select class="form-control" id="productType" formControlName="types" required>
+        <option value="">Select Product Type</option>
+        <option value="food">Food</option>
+        <option value="bakery">Bakery</option>
+        <option value="fruits & veg">Fruits & Veg</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="productName">Product Name:</label>
+      <input type="text" class="form-control" id="productName" formControlName="productname" required>
+    </div>
+    <div class="form-group">
+      <label for="startDate">Start Date:</label>
+      <input type="date" class="form-control" id="startDate" formControlName="packedDate" required>
+    </div>
+    <div class="form-group">
+      <label for="endDate">End Date:</label>
+      <input type="date" class="form-control" id="endDate" formControlName="expdate" required>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Submit</button>
+  </form>
+  

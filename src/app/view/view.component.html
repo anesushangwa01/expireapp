@@ -1,0 +1,33 @@
+
+<!--  
+ <nav class="navbar">
+  <ul>
+      <li *ngFor="let type of types">
+          <a routerLink="/view/{{ types}}" routerLinkActive="active">{{ types }}</a>
+      </li>
+  </ul>
+</nav> -->
+ <div class="container" *ngIf="productEntries"> <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let entry of productEntries; let i = index ">
+      <div class="card">
+        <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/09/16/19/21/salad-2756467_1280.jpg" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ entry.types }}</h5>
+          <h5 class="card-title">{{ entry.productname }}</h5>
+          <div>
+            <ul>
+              <li>Packed Date: <span>{{ entry.packedDate | date:'yyyy-MM-dd' }}</span></li>
+              <li>EXP Date: <span>{{ entry.expdate | date:'yyyy-MM-dd' }}</span></li>
+              <li>Time left: <span>{{ calculateTimeLeft(entry.packedDate, entry.expdate) }}</span></li>
+            </ul>
+          </div>
+          <div>
+            <button class="btn btn-primary"     (click)="editProduct(entry._id || '')">Edit</button>
+            <button class="btn btn-danger" (click)="deleteProduct(entry._id || '')" >Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
