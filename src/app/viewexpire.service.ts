@@ -8,7 +8,7 @@ import { ProductEntry } from './product-model';
 })
 export class ViewexpireService {
 
-  private apiUrl = 'https://back-end-2-14a9.onrender.com/product'; // Replace with your actual API URL
+  private apiUrl = 'http://localhost:5200/product'; // Replace with your actual API URL
 
   constructor(private http: HttpClient) { }
 

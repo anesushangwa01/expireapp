@@ -27,8 +27,9 @@ export class AddproductsComponent {
       img: [''],
       types: ['', Validators.required],
       productname: ['', Validators.required],
-      packedDate: ['', Validators.required],
-      expdate: ['', Validators.required]
+      packedDate: ['',Validators.required],
+      expdate: ['',Validators.required]
+      
     });
   }
 
