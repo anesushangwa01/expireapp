@@ -117,20 +117,21 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
 
-
   calculateTimeLeft(packedDate: Date, expDate: Date): string {
     // Ensure valid Date objects
     packedDate = new Date(packedDate);
     expDate = new Date(expDate);
     
-  
+    // Get the current date
+    const currentDate = new Date();
+
+    // If the expiration date has passed, subtract one day from it
+    if (currentDate > expDate) {
+      expDate.setDate(expDate.getDate() - 1);
+    }
+
     // Calculate time difference in milliseconds
-    const timeDifference = expDate.getTime() - packedDate.getTime();
-    // Handle negative time difference (expired)
-    // if (timeDifference < 0) {
-    //  alert('sss')
-    // }
-  
+    const timeDifference = expDate.getTime() - currentDate.getTime();
     
     // Calculate days and hours, rounding hours
     const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
