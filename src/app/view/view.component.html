@@ -1,15 +1,16 @@
-
 <!--  
- <nav class="navbar">
+<nav class="navbar">
   <ul>
-      <li *ngFor="let type of types">
-          <a routerLink="/view/{{ types}}" routerLinkActive="active">{{ types }}</a>
-      </li>
+    <li *ngFor="let type of types">
+      <a routerLink="/view/{{ type }}" routerLinkActive="active">{{ type }}</a>
+    </li>
   </ul>
-</nav> -->
+</nav>
+-->
 
 <br><br>
- <div class="container" *ngIf="productEntries"> <div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="container" *ngIf="productEntries">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col" *ngFor="let entry of productEntries; let i = index ">
       <div class="card">
         <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/09/16/19/21/salad-2756467_1280.jpg" alt="...">
@@ -23,13 +24,16 @@
               <li>Time left: <span>{{ calculateTimeLeft(entry.packedDate, entry.expdate) }}</span></li>
             </ul>
           </div>
+          <!-- <div *ngIf="calculateTimeLeft(entry.packedDate, entry.expdate) === '0 days & 0 hours left'">
+            <p class="expired-message">This product is expired.</p>
+          </div> -->
+          
           <div>
-            <button class="btn btn-primary"     (click)="editProduct(entry._id || '')">Edit</button>
-            <button class="btn btn-danger" (click)="deleteProduct(entry._id || '')" >Delete</button>
+            <button class="btn btn-primary" (click)="editProduct(entry._id || '')">Edit</button>
+            <button class="btn btn-danger" (click)="deleteProduct(entry._id || '')">Delete</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
-  
+</div>

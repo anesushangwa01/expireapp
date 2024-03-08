@@ -117,6 +117,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
 
+
   calculateTimeLeft(packedDate: Date, expDate: Date): string {
     // Ensure valid Date objects
     packedDate = new Date(packedDate);
@@ -125,19 +126,20 @@ export class ViewComponent implements OnInit, OnDestroy {
     // Get the current date
     const currentDate = new Date();
 
-    // If the expiration date has passed, subtract one day from it
-    if (currentDate > expDate) {
-      expDate.setDate(expDate.getDate() - 1);
-    }
-
     // Calculate time difference in milliseconds
     const timeDifference = expDate.getTime() - currentDate.getTime();
     
-    // Calculate days and hours, rounding hours
+    // Calculate days, hours, and seconds
     const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hoursLeft = Math.round((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const hoursLeft = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutesLeft = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const secondsLeft = Math.floor((timeDifference % (1000 * 60)) / 1000);
+    
+    if (daysLeft <= 0 && hoursLeft <= 0 && minutesLeft <= 0 && secondsLeft <= 0) {
+        return 'Product Expired';
+    }
   
     // Return formatted string
-    return `${daysLeft} day${daysLeft > 1 ? 's' : ''} & ${hoursLeft} hour${hoursLeft > 1 ? 's' : ''} left`;
-  }
+    return `${daysLeft} day${daysLeft > 1 ? 's' : ''}, ${hoursLeft} hour${hoursLeft > 1 ? 's' : ''}, ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''}, and ${secondsLeft} second${secondsLeft > 1 ? 's' : ''} left`;
+}
 }
