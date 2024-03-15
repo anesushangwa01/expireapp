@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-image: url('https://cdn.pixabay.com/photo/2016/04/02/04/14/bell-peppers-1302126_1280.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%;
+
+
+/* backdrop-filter: blur(20px); */
+
+
+  }
+
+  .back{
+    color: white;
+    padding: 10px;
+ /* From https://css.glass */
+/* From https://css.glass */
+background: rgba(255, 255, 255, 0.1);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 255, 255, 0.97);
+  }

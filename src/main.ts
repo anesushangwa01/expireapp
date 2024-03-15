@@ -3,13 +3,13 @@ import { provideHttpClient } from '@angular/common/http'; // Ensure this import 
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 
-
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 
 bootstrapApplication(AppComponent,  {
   providers: [
     provideHttpClient(),
-    ...appConfig.providers, // Merge providers from appConfig
+    ...appConfig.providers,  // Merge providers from appConfig
  
   ],
 })

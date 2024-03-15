@@ -20,4 +20,20 @@ box-shadow: 1px 18px 115px -81px rgba(0,0,0,1);
     color: red;
     font-weight: bold;
   }
+
+  .blur{
+    /* From https://css.glass */
+
+/* From https://css.glass */
+background: rgba(255, 255, 255, 0.36);
+
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(8.1px);
+-webkit-backdrop-filter: blur(8.1px);
+border: 1px solid rgba(255, 255, 255, 0.97);
+
+  }
   
+  .center{
+    text-align: center;
+  }

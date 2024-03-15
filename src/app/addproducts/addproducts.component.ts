@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ViewexpireService } from '../viewexpire.service';
 import { ReactiveFormsModule } from '@angular/forms'; 
@@ -8,7 +9,7 @@ import  {ProductEntry}  from '../product-model'
 @Component({
   selector: 'app-addproducts',
   standalone: true,
-  imports: [ReactiveFormsModule ],
+  imports: [ReactiveFormsModule, CommonModule ],
   templateUrl: './addproducts.component.html',
   styleUrl: './addproducts.component.css'
 })
@@ -16,7 +17,7 @@ export class AddproductsComponent {
   productForm: FormGroup;
   productId!: string;
   isEditing!: boolean; // Flag to indicate whether we are editing an existing product
-
+  message!: string;
   constructor(
     private fb: FormBuilder,
     private productService: ViewexpireService,
@@ -49,21 +50,25 @@ export class AddproductsComponent {
       if (this.isEditing) {
         this.productService.updateProduct(this.productId, productData).subscribe({
           next: updatedProduct => {
-            console.log('Product updated successfully:', updatedProduct);
+            // console.log('Product updated successfully:', updatedProduct);
+            this.message = 'Product has been updated' , updatedProduct;
             this.router.navigateByUrl('/view;type=all'); // Redirect after update
           },
           error: error => {
-            console.error('Error updating product:', error);
+            // console.error('Error updating product:', error);
+            this.message = 'Failed to update the product';
           }
         });
       } else {
         this.productService.addProduct(productData).subscribe({
           next: createdProduct => {
-            console.log('Product added successfully:', createdProduct);
+            // console.log('Product added successfully:', createdProduct);
+            this.message = 'Product added successfully' ,createdProduct;
             this.router.navigateByUrl('/view;type=all'); // Redirect after add
           },
           error: error => {
-            console.error('Error adding product:', error);
+            this.message = 'Error adding product' ,error;
+            // console.error('Error adding product:', error);
           }
         });
       }

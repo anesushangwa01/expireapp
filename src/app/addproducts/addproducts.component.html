@@ -1,6 +1,8 @@
 <!-- product-form.component.html -->
+<div *ngIf="message" class="alert alert-danger">{{ message }}</div>
 
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()"  class="mx-auto back" style="width: 50%;"        >
+  <h2>Add a new Product</h2>
     <div class="form-group">
       <label for="productType">Product Type:</label>
       <select class="form-control" id="productType" formControlName="types" required>

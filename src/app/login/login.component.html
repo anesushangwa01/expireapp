@@ -1,0 +1,19 @@
+
+<h1>Login</h1>
+
+<form  class="mx-auto back" style="width: 50%;"      [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+
+ 
+    <div class="form-group">
+      <label for="userName">User Name</label>
+      <input type="text" class="form-control  input-sm" formControlName="userName" placeholder="User Name">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control  input-sm" formControlName="password" placeholder="Password">
+    </div>
+   
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  

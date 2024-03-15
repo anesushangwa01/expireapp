@@ -1,0 +1,33 @@
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="mx-auto back" style="width: 50%;">
+    <div *ngIf="message" class="alert alert-danger">{{ message }}</div>
+    <h2>Creat Account</h2>
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" class="form-control" formControlName="firstName" placeholder="First Name">
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control " formControlName="lastName" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+      <label for="userName">User Name</label>
+      <input type="text" class="form-control" formControlName="userName" placeholder="User Name">
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+      <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" formControlName="password" placeholder="Password">
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
