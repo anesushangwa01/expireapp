@@ -64,7 +64,7 @@ export class AddproductsComponent {
           next: createdProduct => {
             // console.log('Product added successfully:', createdProduct);
             this.message = 'Product added successfully' ,createdProduct;
-            this.router.navigateByUrl('/view;type=all'); // Redirect after add
+            this.router.navigateByUrl('/home'); // Redirect after add
           },
           error: error => {
             this.message = 'Error adding product' ,error;

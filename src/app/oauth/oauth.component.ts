@@ -5,10 +5,11 @@ import { Register } from '../register.model';
 import { Router, ActivatedRoute } from '@angular/router'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import {ViewexpireService} from '../viewexpire.service' 
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-oauth',
   standalone: true,
-  imports: [ CommonModule,  ReactiveFormsModule  ],
+  imports: [ CommonModule,  ReactiveFormsModule, RouterModule  ],
   templateUrl: './oauth.component.html',
   styleUrls: ['./oauth.component.css']
 })
