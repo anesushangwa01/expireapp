@@ -3,41 +3,62 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewexpireService } from '../viewexpire.service';
 import { ProductEntry } from '../product-model';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule, NgbProgressbarModule],
+  imports: [RouterModule, NgbProgressbarModule,CommonModule ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+  message: { type: string, content: string } | null = null;
 
-  totalProducts: number = 0;
-  newProducts: number = 0;
-  expiredProducts: number = 0;
-  productsAboutToExpire: number = 0;
+ 
+  productTypes: { type: string, added: number, aboutToExpire: number, expired: number }[] = [];
 
-  constructor(private productEntryService: ViewexpireService) {}
+  constructor(private productEntryService: ViewexpireService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.getProductStats();
+
+
+    this.route.queryParams.subscribe(params => {
+      if (params && params['message']) {
+        this.message = JSON.parse(params['message']);
+      } else {
+        this.message = null; // Reset message if no message parameter is found
+      }
+    });
+    
+    
   }
 
   getProductStats(): void {
     this.productEntryService.getProductEntries().subscribe(entries => {
-      this.totalProducts = entries.length;
-      this.newProducts = entries.filter(entry => this.isNewProduct(entry)).length;
-      this.expiredProducts = entries.filter(entry => this.isExpiredProduct(entry)).length;
-      this.productsAboutToExpire = entries.filter(entry => this.isProductAboutToExpire(entry)).length;
+      this.productTypes = this.getProductsByType(entries);
     });
   }
 
-  isNewProduct(entry: ProductEntry): boolean {
-    // You can define your own criteria for what constitutes a new product
-    // For example, if it's added within the last 7 days
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    return new Date(entry.packedDate) > sevenDaysAgo;
+  getProductsByType(entries: ProductEntry[]): { type: string, added: number, aboutToExpire: number, expired: number }[] {
+    const productTypesMap = new Map<string, { added: number, aboutToExpire: number, expired: number }>();
+
+    entries.forEach(entry => {
+      const type = entry.types;
+      if (!productTypesMap.has(type)) {
+        productTypesMap.set(type, { added: 0, aboutToExpire: 0, expired: 0 });
+      }
+
+      const typeStats = productTypesMap.get(type)!;
+      typeStats.added++;
+      if (this.isExpiredProduct(entry)) {
+        typeStats.expired++;
+      } else if (this.isProductAboutToExpire(entry)) {
+        typeStats.aboutToExpire++;
+      }
+    });
+
+    return Array.from(productTypesMap).map(([type, stats]) => ({ type, ...stats }));
   }
 
   isExpiredProduct(entry: ProductEntry): boolean {
@@ -47,8 +68,6 @@ export class HomeComponent {
 
   isProductAboutToExpire(entry: ProductEntry): boolean {
     const currentDate = new Date();
-    // You can define your own criteria for what constitutes a product about to expire
-    // For example, if it's expiring within the next 7 days
     const sevenDaysAhead = new Date();
     sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 7);
     return new Date(entry.expdate) < sevenDaysAhead && new Date(entry.expdate) > currentDate;

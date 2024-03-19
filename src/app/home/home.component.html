@@ -1,16 +1,25 @@
-<div class="card text-center" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Total number of Fruits & Veg</h5>
-    <h1 class="card-text text-center">{{ totalProducts }}</h1>
-    <ul>
-      <li>New products: {{ newProducts }}</li>
-    </ul>
-    <ul>
-      <li>Products expired: {{ expiredProducts }}</li>
-    </ul>
-    <ul>
-      <li>Products about to expire: {{ productsAboutToExpire }}</li>
-    </ul>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+<!-- <div *ngIf="message" class="alert alert-danger">{{ message }}</div> -->
+  <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.type === 'success', 'alert-danger': message.type === 'error'}">
+          {{ message.content }}
+          </div>
+<div class="container ">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let productType of productTypes">
+      <div class="card  blur">
+       
+        <div class="card-body   font-weight-bold">
+          <h5 class="card-title  text-center">Total number of {{ productType.type }}</h5>
+          <h1 class="card-text text-center">{{ productType.added }}</h1>
+          <div>
+            <ul>
+              <li>Products about to expire: {{ productType.aboutToExpire }}</li>
+              <li>Products expired: {{ productType.expired }}</li>
+            </ul>
+          </div>
+          <!-- <a class="btn btn-primary">Views {{productType.type }}</a> -->
+         
+        </div>
+      </div>
+    </div>
   </div>
 </div>

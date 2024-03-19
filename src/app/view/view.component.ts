@@ -5,7 +5,7 @@ import { ProductEntry } from '../product-model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -20,6 +20,9 @@ export class ViewComponent implements OnInit, OnDestroy {
   types?: string; // Store the currently selected product type
   subscription: Subscription | undefined;
   productForm?: FormGroup;
+  searchQuery: string = ''; // Search query property
+  noProduct: boolean = false; // Flag to indicate no product to display
+
   constructor(
     private productEntryService: ViewexpireService,
     private route: ActivatedRoute,
@@ -38,8 +41,13 @@ export class ViewComponent implements OnInit, OnDestroy {
   getProductEntries(): void {
     this.productEntryService.getProductEntries()
       .subscribe(entries => {
-        this.productEntries = entries;
-        // Handle type filtering after getting data
+        if (entries.length === 0) {
+          this.noProduct = true; // Set flag if no product entries are returned
+        } else {
+          this.productEntries = entries.reverse(); // Reverse the order of product entries
+          // Handle type filtering after getting data
+          this.filterProducts(); // Filter products initially
+        }
       });
   }
 
@@ -52,27 +60,38 @@ export class ViewComponent implements OnInit, OnDestroy {
         return this.productEntryService.getProductEntries(); // Fetch product entries again
       })
     ).subscribe(entries => {
-      this.productEntries = entries;
-      this.filterProductsByType(this.types || ''); // Filter entries based on the stored type
+      if (entries.length === 0) {
+        this.noProduct = true; // Set flag if no product entries are returned
+        
+      } else {
+        this.productEntries = entries.reverse(); // Reverse the order of product entries
+        this.filterProducts(); // Filter products based on the stored type and search query
+      }
     });
   }
 
-  filterProductsByType(type: string): void {
-    if (type === 'all') {
-      this.productEntryService.getProductEntries().subscribe(entries => {
-        this.productEntries = entries;
-      });
-    } else {
-      if (!this.productEntries) return;
-      this.productEntries = this.productEntries.filter(entry => entry.types === type);
-    }
-  }
+  filterProducts(): void {
+    if (!this.productEntries) return;
 
-  // deleteProduct(id: string): void {
-  //   this.productEntryService.deleteProduct(id).subscribe({
-  //     next: () => this.getProductEntries()
-  //   });
-  // } 
+    let filteredEntries = this.productEntries;
+
+    // Filter by type
+    if (this.types && this.types !== 'all') {
+      filteredEntries = filteredEntries.filter(entry => entry.types === this.types);
+    }
+
+    // Filter by search query (product name)
+    if (this.searchQuery.trim() !== '') {
+      const query = this.searchQuery.toLowerCase();
+      filteredEntries = filteredEntries.filter(entry => entry.productname.toLowerCase().includes(query));
+    }
+
+    if (filteredEntries.length === 0) {
+      this.noProduct = true; // Set flag if no product entries are found after filtering
+    }
+
+    this.productEntries = filteredEntries;
+  }
 
   deleteProduct(id: string): void {
     // Display confirmation dialog
@@ -96,27 +115,12 @@ export class ViewComponent implements OnInit, OnDestroy {
         console.log('Deletion canceled by user.');
         // You may add further action here if needed
     }
-}
-
+  }
 
   editProduct(id: string): void {
     // Navigate to the edit page with the product ID as a route parameter
     this.router.navigate(['/edit', id]);
   }
-
-  getProductDetails(id: string): void {
-    this.productEntryService.getProductById(id).subscribe(product => {
-      // Populate form fields with the retrieved product details
-      this.productForm?.patchValue({
-        types: product.types,
-        productname: product.productname,
-        packedDate: product.packedDate,
-        expdate: product.expdate
-      });
-    });
-  }
-
-
 
   calculateTimeLeft(packedDate: Date, expDate: Date): string {
     // Ensure valid Date objects
@@ -128,18 +132,22 @@ export class ViewComponent implements OnInit, OnDestroy {
 
     // Calculate time difference in milliseconds
     const timeDifference = expDate.getTime() - currentDate.getTime();
-    
-    // Calculate days, hours, and seconds
-    const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hoursLeft = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutesLeft = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-    const secondsLeft = Math.floor((timeDifference % (1000 * 60)) / 1000);
-    
-    if (daysLeft <= 0 && hoursLeft <= 0 && minutesLeft <= 0 && secondsLeft <= 0) {
+
+    if (timeDifference <= 0) {
         return 'Product Expired';
     }
-  
+    
+    // Convert milliseconds to seconds
+    const secondsLeft = Math.floor(timeDifference / 1000);
+
+    // Calculate remaining days, hours, minutes, and seconds
+    const daysLeft = Math.floor(secondsLeft / (24 * 60 * 60));
+    const hoursLeft = Math.floor((secondsLeft % (24 * 60 * 60)) / (60 * 60));
+    const minutesLeft = Math.floor((secondsLeft % (60 * 60)) / 60);
+    const remainingSeconds = secondsLeft % 60;
+
     // Return formatted string
-    return `${daysLeft} day${daysLeft > 1 ? 's' : ''}, ${hoursLeft} hour${hoursLeft > 1 ? 's' : ''}, ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''}, and ${secondsLeft} second${secondsLeft > 1 ? 's' : ''} left`;
+    return `${daysLeft} day${daysLeft !== 1 ? 's' : ''}, ${hoursLeft} hour${hoursLeft !== 1 ? 's' : ''}, ${minutesLeft} minute${minutesLeft !== 1 ? 's' : ''}, and ${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''} left`;
 }
+
 }

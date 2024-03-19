@@ -9,14 +9,14 @@
 -->
 
 <br><br>
-<form class="d-flex w-50">
-  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+<!-- <form class="d-flex w-50" (ngSubmit)="filterProducts()">
+  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchQuery" [ngModelOptions]="{ standalone: true }">
   <button class="btn btn-outline-success" type="submit">Search</button>
-</form>
+</form> -->
 <br><br>
-<div class="container " *ngIf="productEntries">
+<div class="container " *ngIf="productEntries"   >
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let entry of productEntries; let i = index ">
+    <div class="col" *ngFor="let entry of productEntries; let i = index "  >
       <div class="card  blur">
         <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/09/16/19/21/salad-2756467_1280.jpg" alt="...">
         <div class="card-body text-light  font-weight-bold">
@@ -27,11 +27,11 @@
               <li>Packed Date: <span>{{ entry.packedDate | date:'yyyy-MM-dd' }}</span></li>
               <li>EXP Date: <span>{{ entry.expdate | date:'yyyy-MM-dd' }}</span></li>
               <li>Time left: <span>{{ calculateTimeLeft(entry.packedDate, entry.expdate) }}</span></li>
+              
             </ul>
           </div>
-          <!-- <div *ngIf="calculateTimeLeft(entry.packedDate, entry.expdate) === '0 days & 0 hours left'">
-            <p class="expired-message">This product is expired.</p>
-          </div> -->
+        
+          
           
           <div>
             <button class="btn btn-primary" (click)="editProduct(entry._id || '')">Edit</button>
