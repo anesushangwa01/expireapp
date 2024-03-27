@@ -121,33 +121,39 @@ export class ViewComponent implements OnInit, OnDestroy {
     // Navigate to the edit page with the product ID as a route parameter
     this.router.navigate(['/edit', id]);
   }
+  
 
   calculateTimeLeft(packedDate: Date, expDate: Date): string {
     // Ensure valid Date objects
     packedDate = new Date(packedDate);
     expDate = new Date(expDate);
-    
+  
+    // Subtract 2 hours from the expiry date (in milliseconds)
+    const removedTime = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    expDate.setTime(expDate.getTime() - removedTime);
+  
     // Get the current date
     const currentDate = new Date();
-
+  
     // Calculate time difference in milliseconds
     const timeDifference = expDate.getTime() - currentDate.getTime();
-
+  
     if (timeDifference <= 0) {
-        return 'Product Expired';
+      return 'Product Expired';
     }
-    
+  
     // Convert milliseconds to seconds
     const secondsLeft = Math.floor(timeDifference / 1000);
-
+  
     // Calculate remaining days, hours, minutes, and seconds
     const daysLeft = Math.floor(secondsLeft / (24 * 60 * 60));
     const hoursLeft = Math.floor((secondsLeft % (24 * 60 * 60)) / (60 * 60));
     const minutesLeft = Math.floor((secondsLeft % (60 * 60)) / 60);
     const remainingSeconds = secondsLeft % 60;
-
+  
     // Return formatted string
     return `${daysLeft} day${daysLeft !== 1 ? 's' : ''}, ${hoursLeft} hour${hoursLeft !== 1 ? 's' : ''}, ${minutesLeft} minute${minutesLeft !== 1 ? 's' : ''}, and ${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''} left`;
-}
+  }
+
 
 }
