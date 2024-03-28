@@ -1,9 +1,6 @@
-<br><br><br>
-
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand  nav-link"     [routerLink]="['/view', { type: 'all' }  ]"        >EXPIRE</a>
+    <a class="navbar-brand  nav-link" [routerLink]="['/view', { type: 'all' }]" (click)="isCollapsed = true">EXPIRE</a>
     <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             (click)="isCollapsed = !isCollapsed">
       <span class="navbar-toggler-icon"></span>
@@ -11,33 +8,27 @@
     <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/home']" >Dashboard</a>
+          <a class="nav-link" [routerLink]="['/home']" (click)="isCollapsed = true">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/view', { type: 'all' }  ]" >All Products</a>
+          <a class="nav-link" [routerLink]="['/view', { type: 'all' }]" (click)="isCollapsed = true">All Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/view',  { type: 'bakery' }]">Bakery</a>
+          <a class="nav-link" [routerLink]="['/view',  { type: 'bakery' }]" (click)="isCollapsed = true">Bakery</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/view',  { type: 'catering' }]">Catering</a>
+          <a class="nav-link" [routerLink]="['/view',  { type: 'catering' }]" (click)="isCollapsed = true">Catering</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/view',  { type: 'fruits & veg' }]">Fruits & Veg</a>
+          <a class="nav-link" [routerLink]="['/view',  { type: 'fruits & veg' }]" (click)="isCollapsed = true">Fruits & Veg</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/view',  { type: 'others' }]">Others</a>
+          <a class="nav-link" [routerLink]="['/view',  { type: 'others' }]" (click)="isCollapsed = true">Others</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/addproduct']">Add Product</a>
+          <a class="nav-link" [routerLink]="['/addproduct']" (click)="isCollapsed = true">Add Product</a>
         </li>
-      
       </ul>
-      <li class="nav-item d-flex ">
-        <!-- <a class="nav-link text-success" [routerLink]="['/login']">Login</a> -->
-      </li>
     </div>
   </div>
 </nav>
-
-<div class="container-fluid header">  </div>
