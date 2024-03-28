@@ -4,6 +4,7 @@ export interface ProductEntry {
     productname: string;
     packedDate: Date;
     expdate: Date;
+    refnumber:string
     _id?: string;
     countdown?: string;
-  }
+  }    

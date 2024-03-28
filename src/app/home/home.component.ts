@@ -51,9 +51,10 @@ export class HomeComponent {
 
       const typeStats = productTypesMap.get(type)!;
       typeStats.added++;
-      if (this.isExpiredProduct(entry)) {
-        typeStats.expired++;
-      } else if (this.isProductAboutToExpire(entry)) {
+      // if (this.isExpiredProduct(entry)) {
+      //   typeStats.expired++;
+      // } else 
+      if (this.isProductAboutToExpire(entry)) {
         typeStats.aboutToExpire++;
       }
     });
@@ -61,15 +62,15 @@ export class HomeComponent {
     return Array.from(productTypesMap).map(([type, stats]) => ({ type, ...stats }));
   }
 
-  isExpiredProduct(entry: ProductEntry): boolean {
-    const currentDate = new Date();
-    return new Date(entry.expdate) < currentDate;
-  }
+  // isExpiredProduct(entry: ProductEntry): boolean {
+  //   const currentDate = new Date();
+  //   return new Date(entry.expdate) < currentDate;
+  // }
 
   isProductAboutToExpire(entry: ProductEntry): boolean {
     const currentDate = new Date();
     const sevenDaysAhead = new Date();
-    sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 5);
+    sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 7);
     return new Date(entry.expdate) < sevenDaysAhead && new Date(entry.expdate) > currentDate;
   }
 

@@ -29,8 +29,10 @@ export class AddproductsComponent {
       img: [''],
       types: ['', Validators.required],
       productname: ['', Validators.required],
+      refnumber: ['', Validators.required],
       packedDate: ['', Validators.required],
       expdate: ['', Validators.required],
+    
       // Add a field to display date and time
       dateTime: ['']
     });
