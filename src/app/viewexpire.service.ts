@@ -14,7 +14,7 @@ import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 export class ViewexpireService {
   // https://back-end-2-14a9.onrender.com/product
   
-  private apiUrl = ' https://back-end-2-14a9.onrender.com/product'; // Replace with your actual API URL
+  private apiUrl = ' http://localhost:5200/product'; // Replace with your actual API URL
   private apiUrl2 = ' http://localhost:5200/register';
   private apiUrl3 = ' http://localhost:5200/login';
   constructor(private http: HttpClient) {
