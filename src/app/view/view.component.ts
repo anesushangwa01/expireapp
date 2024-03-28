@@ -7,13 +7,20 @@ import { Subscription } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
-
+import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-view',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './view.component.html',
-  styleUrls: ['./view.component.css']
+  styleUrls: ['./view.component.css'],
+  animations: [
+    trigger('cardAnimation', [
+      transition(':leave', [
+        animate('0.5s ease', style({ opacity: 0, transform: 'translateY(-20px)' }))
+      ])
+    ])
+  ]
 })
 export class ViewComponent implements OnInit, OnDestroy {
   productEntries?: ProductEntry[];
@@ -42,7 +49,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.productEntryService.getProductEntries()
       .subscribe(entries => {
         if (entries.length === 0) {
-          this.noProduct = true; // Set flag if no product entries are returned
+    alert('no product found')
         } else {
           this.productEntries = entries.reverse(); // Reverse the order of product entries
           // Handle type filtering after getting data
@@ -128,7 +135,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     packedDate = new Date(packedDate);
     expDate = new Date(expDate);
   
-    // Subtract 2 hours from the expiry date (in milliseconds)
+    // Subtract 2 hours from the expiry date (in milliseconds) solving a bug which add
+    //  +2hours   instead of  actual time  
     const removedTime = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
     expDate.setTime(expDate.getTime() - removedTime);
   
@@ -149,11 +157,11 @@ export class ViewComponent implements OnInit, OnDestroy {
     const daysLeft = Math.floor(secondsLeft / (24 * 60 * 60));
     const hoursLeft = Math.floor((secondsLeft % (24 * 60 * 60)) / (60 * 60));
     const minutesLeft = Math.floor((secondsLeft % (60 * 60)) / 60);
-    const remainingSeconds = secondsLeft % 60;
+    // const remainingSeconds = secondsLeft % 60;
   
     // Return formatted string
-    return `${daysLeft} day${daysLeft !== 1 ? 's' : ''}, ${hoursLeft} hour${hoursLeft !== 1 ? 's' : ''}, ${minutesLeft} minute${minutesLeft !== 1 ? 's' : ''}, and ${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''} left`;
+    return `${daysLeft} day${daysLeft !== 1 ? 's' : ''}, ${hoursLeft} hr${hoursLeft !== 1 ? 's' : ''}, ${minutesLeft} min${minutesLeft !== 1 ? 's' : ''} left`;
   }
-
-
+ 
+  // , and ${remainingSeconds} Sec${remainingSeconds !== 1 ? 's' : ''}
 }

@@ -7,10 +7,10 @@ import {LoginComponent} from  './login/login.component';
 import { HomeComponent} from  './home/home.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/view', pathMatch: 'full' },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'view', component: ViewComponent},
     { path: 'header', component: HeaderComponent },
-    { path: 'view/:type', component: ViewComponent },
+    { path: 'view;type=all', component: ViewComponent },
     {path: 'addproduct', component: AddproductsComponent},
     { path: 'edit/:id', component: AddproductsComponent},
     {path: 'oauth', component: OAuthComponent},

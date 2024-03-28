@@ -39,3 +39,20 @@ border: 1px solid rgba(255, 255, 255, 0.97);
   .center{
     text-align: center;
   }
+
+
+  .card-animation {
+    animation: fadeIn 0.60s ease;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

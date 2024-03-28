@@ -16,7 +16,7 @@
 <br><br>
 <div class="container " *ngIf="productEntries"   >
   <div class="row row-cols-1 row-cols-md-4 g-4">
-    <div class="col" *ngFor="let entry of productEntries; let i = index "  >
+    <div class="col" *ngFor="let entry of productEntries; let i = index " [ngClass]="{'card-animation': true}" >
       <div class="card  blur">
         <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/09/16/19/21/salad-2756467_1280.jpg" alt="...">
         <div class="card-body text-light  font-weight-bold">
