@@ -2,9 +2,9 @@
 
 <div *ngIf="message" class="alert alert-danger">{{ message }}</div>
 
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="mx-auto back  col-md-6">
-  <h2>Add a new Product</h2>
-  <div class="form-group  ">
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="mx-auto back col-md-6">
+  <h2>{{ isEditing ? 'Edit Product' : 'Add a New Product' }}</h2> <!-- Display 'Edit Product' if isEditing is true, otherwise display 'Add a New Product' -->
+  <div class="form-group">
     <label for="productType">Product Type:</label>
     <select class="form-control" id="productType" formControlName="types" required>
       <option value="">Select Product Type</option>
@@ -23,11 +23,11 @@
     <input type="text" class="form-control" id="ref" formControlName="refnumber" required>
   </div>
   <div class="form-row">
-    <div class="form-group ">
+    <div class="form-group">
       <label for="startDate">Start Date:</label>
       <input type="datetime-local" class="form-control" id="startDate" formControlName="packedDate" required>
     </div>
-    <div class="form-group ">
+    <div class="form-group">
       <label for="endDate">End Date:</label>
       <input type="datetime-local" class="form-control" id="endDate" formControlName="expdate" required>
     </div>
