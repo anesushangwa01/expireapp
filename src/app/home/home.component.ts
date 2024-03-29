@@ -70,7 +70,7 @@ export class HomeComponent {
   isProductAboutToExpire(entry: ProductEntry): boolean {
     const currentDate = new Date();
     const sevenDaysAhead = new Date();
-    sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 7);
+    sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 1);
     return new Date(entry.expdate) < sevenDaysAhead && new Date(entry.expdate) > currentDate;
   }
 
