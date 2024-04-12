@@ -14,13 +14,15 @@ import { CommonModule } from '@angular/common';
 export class HomeComponent {
   message: { type: string, content: string } | null = null;
 
- 
-  productTypes: { type: string, added: number, aboutToExpire: number, expired: number }[] = [];
+  expiredProducts: ProductEntry[] = [];
+
+  expiredProductsByType: { [key: string]: ProductEntry[] } = {};
+  nonExpiredProductsByType: { [key: string]: ProductEntry[] } = {};
 
   constructor(private productEntryService: ViewexpireService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.getProductStats();
+    this.getProductData();
 
 
     this.route.queryParams.subscribe(params => {
@@ -34,44 +36,15 @@ export class HomeComponent {
     
   }
 
-  getProductStats(): void {
-    this.productEntryService.getProductEntries().subscribe(entries => {
-      this.productTypes = this.getProductsByType(entries);
+  getProductData() {
+    this.productEntryService.getProductEntries().subscribe(products => {
+      // Filter expired products
+      this.expiredProducts = products.filter(product => new Date(product.expdate) < new Date());
+
+      // this.expiredProducts = products.filter(product => new Date(product.expdate) > new Date());
+      // Perform notification logic here
+    
     });
-  }
-
-  getProductsByType(entries: ProductEntry[]): { type: string, added: number, aboutToExpire: number, expired: number }[] {
-    const productTypesMap = new Map<string, { added: number, aboutToExpire: number, expired: number }>();
-
-    entries.forEach(entry => {
-      const type = entry.types;
-      if (!productTypesMap.has(type)) {
-        productTypesMap.set(type, { added: 0, aboutToExpire: 0, expired: 0 });
-      }
-
-      const typeStats = productTypesMap.get(type)!;
-      typeStats.added++;
-      // if (this.isExpiredProduct(entry)) {
-      //   typeStats.expired++;
-      // } else 
-      if (this.isProductAboutToExpire(entry)) {
-        typeStats.aboutToExpire++;
-      }
-    });
-
-    return Array.from(productTypesMap).map(([type, stats]) => ({ type, ...stats }));
-  }
-
-  // isExpiredProduct(entry: ProductEntry): boolean {
-  //   const currentDate = new Date();
-  //   return new Date(entry.expdate) < currentDate;
-  // }
-
-  isProductAboutToExpire(entry: ProductEntry): boolean {
-    const currentDate = new Date();
-    const sevenDaysAhead = new Date();
-    sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 1);
-    return new Date(entry.expdate) < sevenDaysAhead && new Date(entry.expdate) > currentDate;
   }
 
 }

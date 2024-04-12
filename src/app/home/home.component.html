@@ -5,22 +5,20 @@
           </div>
 <div class="container ">
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let productType of productTypes">
+    <div class="col" >
       <div class="card  blur">
        
-        <div class="card-body   font-weight-bold">
-          <h5 class="card-title  text-center">Total number of {{ productType.type }}</h5>
-          <h1 class="card-text text-center">{{ productType.added }}</h1>
-          <div>
-            <ul>
-              <li>Products about to expire: {{ productType.aboutToExpire }}</li>
-              <!-- <li>Products expired: {{ productType.expired }}</li> -->
-            </ul>
+        <div *ngIf="expiredProducts.length > 0" class="notification">
+          <a href="#" class="notification-icon">
+            <i class=" bi-bell "></i>
+            <span class="badge bg-danger">{{ expiredProducts.length }}</span>
+            </a>
+            
+          <small>product(s) expired</small>
           </div>
           <!-- <a class="btn btn-primary">Views {{productType.type }}</a> -->
          
         </div>
       </div>
     </div>
-  </div>
-</div>
+ 

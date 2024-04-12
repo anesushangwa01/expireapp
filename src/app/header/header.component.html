@@ -28,7 +28,16 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/addproduct']" (click)="isCollapsed = true">Add Product</a>
         </li>
+
       </ul>
+      <div *ngIf="expiredProducts.length > 0" class="notification">
+        <a href="#" class="notification-icon">
+          <i class=" bi-bell "></i>
+          <span class="badge bg-danger">{{ expiredProducts.length }}</span>
+          </a>
+          
+        <small>product(s) expired</small>
+      </div>
     </div>
   </div>
 </nav>

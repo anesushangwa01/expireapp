@@ -6,5 +6,5 @@ export interface ProductEntry {
     expdate: Date;
     refnumber:string
     _id?: string;
-    countdown?: string;
+
   }    
